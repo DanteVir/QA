@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Cuestionario</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('wherethefuckishim.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        .container h3 {
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        form label {
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        form input[type="text"],
+        form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        form button {
+            padding: 10px 20px;
+            background: #9b59b6;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        form button:hover {
+            background: #8e44ad;
+        }
+        .add-question {
+            background: #2ecc71;
+            margin-bottom: 20px;
+        }
+        .add-question:hover {
+            background: #27ae60;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .answers {
+            margin-bottom: 10px;
+        }
+        .remove-question {
+            background: #e74c3c;
+            margin-top: 10px;
+        }
+        .remove-question:hover {
+            background: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>Crear Nuevo Cuestionario</h3>
+        <form id="quiz-form">
+            <label for="titulo">Título del Cuestionario:</label>
+            <input type="text" id="titulo" name="titulo" placeholder="Ingrese el título del cuestionario">
+
+            <div id="questions-container">
+                <!-- Aquí se agregarán dinámicamente las preguntas -->
+            </div>
+
+            <button type="button" class="add-question" onclick="addQuestion()">Agregar Pregunta</button>
+            <button type="submit">Guardar Cuestionario</button>
+        </form>
+    </div>
+
+    <script>
+        let questionCount = 0;
+
+        function addQuestion() {
+            questionCount++;
+
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question');
+            questionDiv.setAttribute('id', `question-${questionCount}`);
+
+            questionDiv.innerHTML = `
+                <label for="pregunta-${questionCount}">Pregunta ${questionCount}:</label>
+                <input type="text" id="pregunta-${questionCount}" name="pregunta-${questionCount}" placeholder="Ingrese la pregunta">
+
+                <div class="answers" id="answers-${questionCount}">
+                    <label>Respuestas:</label>
+                    <div>
+                        <input type="text" name="respuesta-${questionCount}-1" placeholder="Opción 1">
+                        <input type="radio" name="correcta-${questionCount}" value="1"> Correcta
+                    </div>
+                    <div>
+                        <input type="text" name="respuesta-${questionCount}-2" placeholder="Opción 2">
+                        <input type="radio" name="correcta-${questionCount}" value="2"> Correcta
+                    </div>
+                    <div>
+                        <input type="text" name="respuesta-${questionCount}-3" placeholder="Opción 3">
+                        <input type="radio" name="correcta-${questionCount}" value="3"> Correcta
+                    </div>
+                    <div>
+                        <input type="text" name="respuesta-${questionCount}-4" placeholder="Opción 4">
+                        <input type="radio" name="correcta-${questionCount}" value="4"> Correcta
+                    </div>
+                </div>
+
+                <button type="button" class="remove-question" onclick="removeQuestion(${questionCount})">Eliminar Pregunta</button>
+            `;
+
+            document.getElementById('questions-container').appendChild(questionDiv);
+        }
+
+        function removeQuestion(id) {
+            const questionDiv = document.getElementById(`question-${id}`);
+            questionDiv.remove();
+        }
+    </script>
+</body>
+</html>

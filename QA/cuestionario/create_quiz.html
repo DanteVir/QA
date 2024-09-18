@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Cuestionario</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+   
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+            z-index: -1;
+        }
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        .container h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+        .container label {
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .container input[type="text"], .container textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .container button {
+            width: 100%;
+            padding: 10px;
+            background: #9b59b6;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-bottom: 10px;
+        }
+        .container button:hover {
+            background: #8e44ad;
+        }
+        .container .question-list {
+            margin-top: 20px;
+        }
+        .container .question-list .question {
+            background: #f8f8f8;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="container">
+        <h3>Crear Cuestionario - <span id="subject-name"></span></h3>
+        <label for="quiz-title">Título del Cuestionario</label>
+        <input type="text" id="quiz-title" placeholder="Ingrese el título del cuestionario">
+
+        <label for="question">Pregunta</label>
+        <input type="text" id="question" placeholder="Ingrese la pregunta">
+
+        <label for="options">Opciones</label>
+        <textarea id="options" placeholder="Ingrese las opciones separadas por comas"></textarea>
+
+        <label for="correct-answer">Respuesta Correcta</label>
+        <input type="text" id="correct-answer" placeholder="Ingrese la respuesta correcta">
+
+        <button id="add-question">Agregar Pregunta</button>
+        <button id="finish-quiz">Finalizar Cuestionario</button>
+
+        <div class="question-list" id="question-list">
+            <!-- Aquí se mostrarán las preguntas añadidas -->
+        </div>
+    </div>
+
+    <script>
+        // Obtener el parámetro de materia desde la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const subject = urlParams.get('subject');
+        document.getElementById('subject-name').textContent = subject.charAt(0).toUpperCase() + subject.slice(1);
+
+        document.getElementById('add-question').addEventListener('click', function() {
+            const question = document.getElementById('question').value;
+            const options = document.getElementById('options').value;
+            const correctAnswer = document.getElementById('correct-answer').value;
+
+            if (question && options && correctAnswer) {
+                const questionList = document.getElementById('question-list');
+                const newQuestion = document.createElement('div');
+                newQuestion.classList.add('question');
+                newQuestion.innerHTML = `
+                    <p><strong>Pregunta:</strong> ${question}</p>
+                    <p><strong>Opciones:</strong> ${options}</p>
+                    <p><strong>Respuesta Correcta:</strong> ${correctAnswer}</p>
+                `;
+                questionList.appendChild(newQuestion);
+
+                // Limpiar los campos para la siguiente pregunta
+                document.getElementById('question').value = '';
+                document.getElementById('options').value = '';
+                document.getElementById('correct-answer').value = '';
+            } else {
+                alert('Por favor, complete todos los campos antes de agregar una pregunta.');
+            }
+        });
+
+        document.getElementById('finish-quiz').addEventListener('click', function() {
+            const quizTitle = document.getElementById('quiz-title').value;
+            const questions = document.getElementById('question-list').children;
+
+            if (quizTitle && questions.length > 0) {
+                // Aquí se puede implementar la lógica para guardar el cuestionario
+                alert('Cuestionario guardado correctamente');
+            } else {
+                alert('Por favor, ingrese un título para el cuestionario y agregue al menos una pregunta.');
+            }
+        });
+    </script>
+</body>
+</html>
